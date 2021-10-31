@@ -2,6 +2,10 @@
 session_start();
 $firstname = $_SESSION['firstname'];
 $lastname = $_SESSION['lastname'];
+
+if (!isset($_SESSION['sub'])) {
+    header("location:login.php"); // Not logged in redirect to login
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
