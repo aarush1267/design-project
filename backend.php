@@ -14,8 +14,9 @@ $connection = mysqli_connect($dbHost, $dbUser, $dbPass, $database) or die ("Sorr
 if(isset($_POST['uname']) && isset($_POST['psw'])) {
   $uname = $_POST['uname'];
   $psw = $_POST['psw'];
+  $loginPassword = md5($psw);
 
-  $process = "SELECT * FROM users WHERE email='$uname' AND password='$psw'";
+  $process = "SELECT * FROM users WHERE email='$uname' AND password='$loginPassword'";
   $res = mysqli_query($connection, $process);
 
   if (mysqli_num_rows($res) == 1) {
