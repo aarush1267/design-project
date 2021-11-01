@@ -20,7 +20,10 @@ if(isset($_POST['uname']) && isset($_POST['psw'])) {
   $res = mysqli_query($connection, $process);
 
   if (mysqli_num_rows($res) == 1) {
+    $row = mysqli_fetch_assoc($res);
+    
     echo "Successful login!";
+    header("location:home.php");
   } else {
     echo "Incorrect Email/Password";
   }
