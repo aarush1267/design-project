@@ -216,7 +216,7 @@ button[type=button]:hover{
 }
 </style>
 
-  <form class="modal-content animate" action="backend.php" method="post">
+  <form class="modal-content animate" action="javascript:void(0)" method="post">
     <div class="imgcontainer">
       <span onclick="location.href='index.php'" class="close" title="Close Modal"></span>
       <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png" alt="Avatar" class="avatar">
