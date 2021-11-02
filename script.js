@@ -44,3 +44,54 @@ function checkEmail() {
   });
    }
 }
+
+// AJAX for login system
+
+function checkLogin() {
+  $(document).ready(function(){
+    $('#loginBtn').click(function(){
+      var uname = $('#ema').val();
+      var psw = $('#pswd').val();
+
+      if (loginEmail.length > 0 && loginPassword.length > 0) {
+        jQuery.ajax({
+          url:"backend.php",
+          type:"POST",
+          data:{
+            uname:uname,
+            psw:psw
+          },
+          success:function(data){
+            $("#checkLogin").show();
+            $("#ema").css("border", "2px solid green");
+            $("#pswd").css("border", "2px solid green");
+            $("#emailYes").css("visibility","visible");
+            $("#emailNo").css("visibility","hidden");
+            $("#passwordYes").css("visibility","visible");
+            $("#passwordNo").css("visibility","hidden");
+            if(data) {
+              $("#ema").css("border", "2px solid red");
+              $("#pswd").css("border", "2px solid red");
+              $("emailNo").css("visibility","visible");
+              $("emailYes").css("visibility","hidden");
+              $("passwordNo").css("visibility","visible");
+              $("passwordYes").css("visibility","hidden");
+            } else {
+              $("#ema").css("border", "2px solid green");
+              $("#pswd").css("border", "2px solid green");
+              $("emailNo").css("visibility","hidden");
+              $("emailYes").css("visibility","visible");
+              $("passwordNo").css("visibility","hidden");
+              $("passwordYes").css("visibility","visible");
+              window.location.href = 'home.php';
+            }
+            $("#checkLogin").html(data);
+          },
+          error:function (){
+
+          }
+        });
+      }
+    });
+  });
+}
