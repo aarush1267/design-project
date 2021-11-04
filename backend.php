@@ -21,8 +21,11 @@ if(isset($_POST['uname']) && isset($_POST['psw'])) {
 
   if (mysqli_num_rows($res) == 1) {
     $row = mysqli_fetch_assoc($res);
-    
-    echo "Successful login!";
+
+    $_SESSION['firstname'] = $row['firstname'];
+    $_SESSION['lastname'] = $row['lastname'];
+
+    $_SESSION["loginbutton"] = "1";
     header("location:home.php");
   } else {
     echo "Incorrect Email/Password";
