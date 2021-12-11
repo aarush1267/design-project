@@ -45,12 +45,10 @@ if(count($errors) == 0){
 }
 
 if (mysqli_query($connection, $sql)) {
-  $_SESSION['sub'] = "1";
+  $_SESSION["sub"] = "1";
 } else {
   echo "Error: " . $sql . "<br>" . mysqli_error($connection);
 }
 }
-
-// Login System
 
 ?>
