@@ -81,6 +81,7 @@ function checkLogin() {
           $("#emailYes").css("visibility","visible");
           $("#passwordNo").css("visibility","hidden");
           $("#passwordYes").css("visibility","visible");
+          window.location.href = 'home.php';
           }
         $("#checkLogin").html(data);
         },
