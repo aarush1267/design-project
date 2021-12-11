@@ -6,6 +6,16 @@ $lastname = $_SESSION['lastname'];
 if (!isset($_SESSION['sub'])) {
     header("location:login.php"); // Not logged in redirect to login
   }
+
+// Making Connection To The Database
+
+$dbHost = "localhost";
+$dbUser = "root";
+$dbPass = "";
+$database = "signup";
+
+$connection = mysqli_connect($dbHost, $dbUser, $dbPass, $database) or die ("Sorry, we could not connect to the database");
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -14,6 +24,8 @@ if (!isset($_SESSION['sub'])) {
     <title>Your Posts | Feed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="script.js"></script>
   <body style="background-color:#E0E0E0">
 
     <style>
@@ -106,7 +118,6 @@ if (!isset($_SESSION['sub'])) {
 
     .search-box:focus-within > .search-btn{
         background: #d1d8d0;
-        content: url("https://cdn3.iconfinder.com/data/icons/mini-icon-set-web-design-device/91/Web_-_Design_-_Device_99-512.png");
     }
 
     .search-box:focus-within > .search-btn:hover {
@@ -325,11 +336,11 @@ input[type=feed]::placeholder
   cursor: pointer;
 }
 </style>
-<div class="post" style="font-family:Verdana"><center style="margin-top:-4px"><b>Post a Feed</center></b></div>
+<div class="post" style="font-family:'Rajdhani'"><center style="margin-top:-4px"><b><b>Post a Feed</center></b></b></div>
 <hr style="width:540px; margin-top:-407px; margin-left:17px; border: 1px solid black">
 
 <img onclick="location.href='profile.php'" src="img/pfp.png" class="prof">
-<input type="feed" autocomplete="off" name="feed" id="feed" placeholder="What's going on, <?php echo $firstname ?>?">
+<input readonly type="feed" autocomplete="off" name="feed" id="feed" placeholder="What's going on, <?php echo $firstname ?>?">
 
 <hr style="width:540px; margin-top:13px; margin-left:17px; border: 1px solid black">
 
@@ -340,7 +351,7 @@ body
 
 	margin: 0;
     padding: 0;
-    font-family: Verdana;
+    font-family: 'Verdana';
 }
 
 .container
@@ -453,7 +464,7 @@ body
 
 <hr style="width:540px; margin-left:16px; border: 1px solid black; margin-top:-27px">
 
-<button type="categorize" name="categorize" style="margin-left:30px; background-color:yellow; width:510px; height:45px; border-radius:25px; font-family:Verdana; margin-top:2px; border-color:black; outline:none; cursor: pointer"><b>Categorize</button></b>
+<button type="categorize" name="categorize" style="margin-left:30px; background-color:yellow; width:510px; height:45px; border-radius:10px; font-family:'Rajdhani'; margin-top:2px; border-color:black; outline:none; cursor: pointer"><b>Categorize</button></b>
 
 <hr style="width:540px; margin-left:16px; border: 1px solid black; margin-top:9px">
 
@@ -547,7 +558,7 @@ body
 }
 
 .postContent{
-  width: 104.5%;
+  width: 800px;
   margin-left: -2.5%;
   margin-top: 5%;
   resize: none;
@@ -555,11 +566,12 @@ body
   font-size: 23px;
   border: none;
   outline: none;
+  padding-left: 15px;
 }
 
 .postContent::placeholder{
   color: black;
-  padding-left: 16px;
+  position:fixed;
 }
 
 .bro{
@@ -609,51 +621,54 @@ body
   cursor: pointer;
 }
 
-.pos:active{
+/* .pos:active{
   width: 90%;
   height: 7%;
-}
+} */
 </style>
 
-<div class="popup" id="popup">
-  <div class="popup-content">
+<form method="post">
+  <div class="popup" id="popup">
+    <div class="popup-content">
 
-    <center><h1 class="start">Post a Feed</h1></center>
-    <hr style="margin-top: -10px; width: 105%; margin-left: -20px; height: 1px; background-color: black; border: none">
-    <img src="img/close.png" class="iconClose" id="iconClose">
-    <img onclick="location.href='profile.php'" class="popupPFP" src="img/pfp.png" alt="popupPFP">
-    <h3 class="popupName"><?php echo $firstname . "&nbsp;" . $lastname . " is adding a post."?></h3>
+      <center><h1 class="start">Post a Feed</h1></center>
+      <hr style="margin-top: -10px; width: 105%; margin-left: -20px; height: 1px; background-color: black; border: none">
+      <img src="img/close.png" class="iconClose" id="iconClose">
+      <img onclick="location.href='profile.php'" class="popupPFP" src="img/pfp.png" alt="popupPFP">
+      <h3 class="popupName"><?php echo $firstname . "&nbsp;" . $lastname . " is adding a post."?></h3>
 
-    <hr style="margin-top: 20px; position:fixed; width: 100%; margin-left: -20px; height: 1px; background-color: black; border: none">
-    <textarea id="postContent" name="postContent" rows="8" cols="80" class="postContent" placeholder="What's going on, <?php echo $firstname ?>?"></textarea>
+      <hr style="margin-top: 20px; position:fixed; width: 100%; margin-left: -20px; height: 1px; background-color: black; border: none">
+      <textarea id="postContent" name="postContent" rows="8" cols="80" class="postContent" placeholder="What's going on, <?php echo $firstname ?>?"></textarea>
 
+      <div style="background: #A8A8A8; border-radius: 15px; width: 72%;">
+      <h1 style="font-family:'Rajdhani'; padding-top: 8px; padding-left: 14px">Additionals</h1>
+      <img style="width: 55px; margin-top: -64px; margin-left: 180px; position: fixed; cursor: pointer" alt="image" src="img/thenew.png">
+      <h1 style="color: orange; font-family: 'Rajdhani'; margin-top: -74px; margin-left: 250px; font-size: 50px; cursor: pointer">@</h1>
+      <img style="width: 51px; margin-top: -88px; margin-left: 303px; position: fixed; cursor: pointer" alt="feeling" src="img/feeling.png">
+      <img style="width:55px; margin-top: -92px; position:fixed; margin-left: 365px; cursor: pointer" alt="memory" src="img/memory.png">
+      <img style="width: 55px; margin-top: -89px; position:fixed; margin-left: 432px; cursor: pointer" alt="shoutout" src="https://vectorified.com/images/shout-out-icon-34.png">
+      <img style="width: 40px; margin-top: -84px; position: fixed; margin-left: 517px; cursor: pointer" alt="more" src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/more-512.png">
+    </div>
 
-    <div style="background: #A8A8A8; border-radius: 15px; width: 72%;">
-    <h1 style="font-family:'Rajdhani'; padding-top: 8px; padding-left: 14px">Additionals</h1>
-    <img style="width: 55px; margin-top: -64px; margin-left: 180px; position: fixed; cursor: pointer" alt="image" src="img/thenew.png">
-    <h1 style="color: orange; font-family: 'Rajdhani'; margin-top: -74px; margin-left: 250px; font-size: 50px; cursor: pointer">@</h1>
-    <img style="width: 51px; margin-top: -88px; margin-left: 303px; position: fixed; cursor: pointer" alt="feeling" src="img/feeling.png">
-    <img style="width:55px; margin-top: -92px; position:fixed; margin-left: 365px; cursor: pointer" alt="memory" src="img/memory.png">
-    <img style="width: 55px; margin-top: -89px; position:fixed; margin-left: 432px; cursor: pointer" alt="shoutout" src="https://vectorified.com/images/shout-out-icon-34.png">
-    <img style="width: 40px; margin-top: -84px; position: fixed; margin-left: 517px; cursor: pointer" alt="more" src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/more-512.png">
+    <div class="bro">
+    <img style="width: 55px; margin-top: -84px; margin-left: 620px; position: fixed; cursor: pointer" src="img/font.png" alt="font">
+    <img style="width: 55px; margin-top: -90px; margin-left: 710px; position:fixed; cursor: pointer" src="https://icon-library.com/images/emoji-icon-png/emoji-icon-png-20.jpg" alt="emoji">
+    </div>
+
+    <button class="btnFeed" type="button" name="button"><i style="padding-right: 10px" class="fa fa-columns"></i>Categorize Feed</button>
+    <button class="btnFeedback" type="button" name="button"><span style="margin-top:0px; position:fixed; margin-left: -65px">Feedback Settings</span><i id="yes_fdbk" onclick="yes_fdbk_click()" style="padding-left: 30px; background: #A8A8A8; border-radius: 5px; width: 18px; padding-right: 30px; margin-left: 115px; margin-top: 3px; cursor: pointer"
+    class="fa fa-check"></i>
+    <i onclick="no_fdbk_click()" class="fa fa-times" id="no_fdbk" style="margin-left: -30px; padding-left: 35px; padding-right: 30px;width: 80px; padding-top: 1px; cursor: pointer; margin-top: 3px; margin-bottom:-1px; position:fixed"></i></button>
+
+    <button id="pos" class="pos">Post</button>
+
+    <div id="noText" style="font-family: 'Rajdhani'; margin-top:95px; margin-left:270px; font-size:25px; border:2px solid black; padding-left:7px; padding-top:10px; padding-bottom:7px; width:290px; border-radius:10px; background:orange; visibility:hidden; position:fixed">Your post cannot be empty.</div>
+
+    </div>
   </div>
+</form>
 
-  <div class="bro">
-  <img style="width: 55px; margin-top: -84px; margin-left: 620px; position: fixed; cursor: pointer" src="img/font.png" alt="font">
-  <img style="width: 55px; margin-top: -90px; margin-left: 710px; position:fixed; cursor: pointer" src="https://icon-library.com/images/emoji-icon-png/emoji-icon-png-20.jpg" alt="emoji">
-  </div>
-
-  <button class="btnFeed" type="button" name="button"><i style="padding-right: 10px" class="fa fa-columns"></i>Categorize Feed</button>
-  <button class="btnFeedback" type="button" name="button"><span style="margin-top:0px; position:fixed; margin-left: -65px">Feedback Settings</span><i id="yes_fdbk" onclick="yes_fdbk_click()" style="padding-left: 30px; background: #A8A8A8; border-radius: 5px; width: 18px; padding-right: 30px; margin-left: 115px; margin-top: 3px; cursor: pointer"
-  class="fa fa-check"></i>
-  <i onclick="no_fdbk_click()" class="fa fa-times" id="no_fdbk" style="margin-left: -30px; padding-left: 35px; padding-right: 30px;width: 80px; padding-top: 1px; cursor: pointer; margin-top: 3px; margin-bottom:-1px; position:fixed"></i></button>
-
-  <button id="pos" class="pos">Post</button>
-
-  </div>
-</div>
-
-
+<div id="response"></div>
 
 <script type="text/javascript">
 
@@ -691,8 +706,279 @@ function yes_fdbk_click() {
   document.getElementById("no_fdbk").style.background = "none";
 }
 
+///////
+
+var postContent = document.getElementById('postContent');
+var postBtn = document.getElementById('pos');
+var noText = document.getElementById('noText');
+var popup = document.getElementById('popup');
+
+postBtn.addEventListener("click", function(e) {
+  if (postContent.value === "") {
+    e.preventDefault();
+    noText.style.visibility = 'visible';
+    popup.style.display = 'flex';
+  } else {
+    noText.style.visibility = 'hidden';
+    popup.style.display - 'none';
+  }
+});
+
+</script>
+
+<style>
+
+.imgpostPFP {
+  margin-left: 680px;
+  width: 70px;
+  position: fixed;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.imginfo {
+  margin-left: 756px;
+  position: fixed;
+  font-family: 'Rajdhani';
+  font-weight: bolder;
+  margin-top: 25px;
+}
+
+.imgpostOptions {
+  position: fixed;
+  width: 70px;
+  margin-left: 1176px;
+  margin-top: 16px;
+}
+
+.imagePost {
+  margin-top: 50px;
+  width: 650px;
+  height: 410px;
+  position: fixed;
+  background-color: #C0C0C0;
+  margin-left: 680px;
+  border-radius: 15px;
+  display: none;
+}
+
+.imgpostFormat {
+  margin-left: -640px;
+  position: fixed;
+}
+
+</style>
+
+  <div class="imagePost">
+      <div class="imgpostFormat">
+        <img src="img/pfp.png" alt="pfp" onclick="location.href='profile.php'" class="imgpostPFP">
+        <b><div class="imginfo"><?php echo $firstname . "&nbsp;" . $lastname ?></div></b>
+        <img src="img/options.png" alt="textpostOptions" class="imgpostOptions">
+        <hr style="margin-top: 85px; width: 600px; position: fixed; margin-left: 663px; border:1px solid black; border-radius: 10px">
+        <hr style="margin-top: 85px; width: 0px; height: 240px; position: fixed; margin-left: 1150px; border: 1px solid black; border-radius: 10px">
+        <hr style="margin-top: 325px; width: 600px; position: fixed; margin-left: 663px; border:1px solid black; border-radius: 10px">
+        <hr style="margin-top: 380px; width: 600px; position: fixed; margin-left: 663px; border: 1px solid black; border-radius: 10px">
+        <p style="margin-left: 670px; margin-top: 95px; position: fixed; font-family: 'Rajdhani'"></p>
+      </div>
+  </div>
+
+<style>
+
+.textpostPFP {
+  margin-left: 680px;
+  width: 70px;
+  position: fixed;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.textinfo {
+  margin-left: 756px;
+  position: fixed;
+  font-family: 'Rajdhani';
+  font-weight: bolder;
+  margin-top: 25px;
+}
+
+.textpostOptions {
+  position: fixed;
+  width: 70px;
+  margin-left: 1176px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+.textPost {
+  margin-top: 50px;
+  width: 650px;
+  height: 400px;
+  position: fixed;
+  background-color: #C0C0C0;
+  margin-left: 680px;
+  border-radius: 15px;
+}
+
+.textpostFormat {
+  margin-left: -640px;
+  position: fixed;
+}
+
+.textcommentPFP {
+  width: 60px;
+  cursor: pointer;
+  margin-left: 675px;
+  position: fixed;
+  margin-top: 338px;
+}
+
+.textComment {
+  margin-left: 755px;
+  position: fixed;
+  margin-top: 340px;
+  height: 26px;
+  width: 350px;
+  border-radius: 5px;
+  border: 2px solid black;
+  font-family: 'Rajdhani';
+  outline: none;
+  padding: 5px;
+  background-color: #E0E0E0;
+}
+
+.textComment::placeholder {
+  color: black;
+}
+
+.textLike:hover {
+  background-color: #FF8C00;
+  border-radius: 5px;
+  width: 40px;
+  margin-right: 5px;
+}
+
+.makeComment:hover {
+  background-color: #FF8C00;
+  border-radius: 5px;
+  width: 96px;
+  margin-right: 5px;
+}
+
+.textReact:hover {
+  background-color: #FF8C00;
+  border-radius: 5px;
+  width: 55px;
+  margin-right: 5px;
+}
+
+.textShare:hover {
+  background-color: #FF8C00;
+  border-radius: 5px;
+  width: 57px;
+  margin-right: 5px;
+}
+
+
+.textratingBar {
+  border: 2px solid black;
+  height: 40px;
+  width: 294px;
+  border-radius: 5px;
+  padding: 2px;
+  font-family: 'Rajdhani';
+  position: fixed;
+  margin-top: 262px;
+  margin-left: 695px;
+  background-color: #FF8C00;
+}
+
+</style>
+
+<div class="textPost">
+  <?php
+
+  $sql = "SELECT * FROM posts";
+  $result = mysqli_query($connection, $sql);
+  if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+
+  ?>
+  <div class="textpostFormat">
+    <img src="img/pfp.png" alt="pfp" onclick="location.href='profile.php'" class="textpostPFP">
+    <b><div class="textinfo"><?php echo $firstname . "&nbsp;" . $lastname ?></div></b>
+    <img src="img/options.png" alt="textpostOptions" class="textpostOptions">
+    <hr style="margin-top: 85px; width: 600px; position: fixed; margin-left: 663px; border:1px solid black; border-radius: 10px">
+    <hr style="margin-top: 200px; width: 600px; position: fixed; margin-left: 663px; border:1px solid black; border-radius: 10px">
+    <div class="textfeedbackBar" style="position: fixed">
+      <hr style="margin-top: 250px; width: 600px; position: fixed; margin-left: 663px; border: 1px solid black; border-radius: 10px">
+      <div class="textratingBar">
+        <div style="float: left; margin: 10px; cursor: pointer">1</div>
+        <hr style="width: 0px; height: 43px; float: left; margin-top: -2px; border: 1px solid black">
+        <div style="float: left; margin: 10px; cursor: pointer">2</div>
+        <hr style="width: 0px; height: 43px; float: left; margin-top: -2px; border: 1px solid black">
+        <div style="float: left; margin: 10px; cursor: pointer">3</div>
+        <hr style="width: 0px; height: 43px; float: left; margin-top: -2px; border: 1px solid black">
+        <div style="float: left; margin: 10px; cursor: pointer">4</div>
+        <hr style="width: 0px; height: 43px; float: left; margin-top: -2px; border: 1px solid black">
+        <div style="float: left; margin: 10px; cursor: pointer">5</div>
+        <hr style="width: 0px; height: 43px; float: left; margin-top: -2px; border: 1px solid black">
+        <div style="float: left; margin: 10px; cursor: pointer">6</div>
+        <hr style="width: 0px; height: 43px; float: left; margin-top: -2px; border: 1px solid black">
+        <div style="float: left; margin: 10px; cursor: pointer">7</div>
+        <hr style="width: 0px; height: 43px; float: left; margin-top: -2px; border: 1px solid black">
+        <div style="float: left; margin: 10px; cursor: pointer">8</div>
+        <hr style="width: 0px; height: 43px; float: left; margin-top: -2px; border: 1px solid black">
+        <div style="float: left; margin: 10px; cursor: pointer">9</div>
+        <hr style="width: 0px; height: 43px; float: left; margin-top: -2px; border: 1px solid black">
+        <div style="float: left; margin-left: 275px; cursor: pointer; margin-top: 10px; position: fixed">10</div>
+      </div>
+
+      <div style="position: fixed; margin-left: 1030px; margin-top: 235px">
+        <img class="textupvote" id="textUpvoteImg" src="img/upvote.png" alt="upvote" onclick="changetextUpvote()" style="width: 100px; margin-bottom: 28px; cursor: pointer">
+        <img class="textdownvote" id="textDownvoteImg" src="img/downvote.png" alt="downvote" onclick="changetextDownvote()" style="width: 120px; margin-top: -12px; position: fixed; cursor: pointer">
+      </div>
+    </div>
+    <hr style="margin-top: 320px; width: 600px; position: fixed; margin-left: 663px; border: 1px solid black; border-radius: 10px">
+    <img src="img/pfp.png" alt="commentpfp" onclick="location.href='profile.php'" class="textcommentPFP">
+    <input type="text" name="textComment" class="textComment" placeholder="Write a comment">
+    <p style="margin-left: 670px; margin-top: 95px; position: fixed; font-size: 45px; font-family: 'Rajdhani'"><?php echo $row["body"]; ?></p>
+    <div style="margin-left: 715px; position: fixed; font-family: 'Rajdhani'">
+      <h2 style="margin-top: 206px; margin-left: -15px; cursor:pointer; padding: 5px; position: fixed" class="textLike">Like</h2>
+      <h2 style="margin-left: 108px; margin-top: 206px; cursor:pointer; padding: 5px; position: fixed" class="makeComment">Comment</h2>
+      <h2 style="margin-left: 290px; margin-top: 206px; cursor:pointer; padding: 5px; position: fixed" class="textReact">React</h2>
+      <h2 style="margin-left: 440px; margin-top: 206px; cursor:pointer; padding: 5px; position: fixed" class="textShare">Share</h2>
+    </div>
+  </div>
+  <?php
+
+  }
+}
+
+  ?>
+</div>
+
+<script type="text/javascript">
+
+function changetextUpvote() {
+  var textUpvoteImg = document.getElementById('textUpvoteImg');
+  if (textUpvoteImg.src.match("downvote")) {
+    textUpvoteImg.src = "img/upvote.png";
+  } else {
+    textUpvoteImg.src = "img/downvote.png";
+  }
+}
+
+function changetextDownvote() {
+  var textDownvoteImg = document.getElementById('textDownvoteImg');
+  if (textDownvoteImg.src.match("upvote")) {
+    textDownvoteImg.src = "img/downvote.png";
+  } else {
+    textDownvoteImg.src = "img/upvote.png";
+  }
+}
+
 </script>
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
   </body>
+<?php include 'post.php'; ?>
 </html>
