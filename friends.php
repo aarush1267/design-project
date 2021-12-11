@@ -90,7 +90,6 @@ if (!isset($_SESSION['sub'])) {
 
     .search-box:focus-within > .search-btn{
         background: #d1d8d0;
-        content: url("https://cdn3.iconfinder.com/data/icons/mini-icon-set-web-design-device/91/Web_-_Design_-_Device_99-512.png");
     }
 
     .search-box:focus-within > .search-btn:hover {
@@ -139,8 +138,8 @@ if (!isset($_SESSION['sub'])) {
                       </div>
                     </div></font>
                   </th>
-          <img onclick="location.href='catalogues.php'"src="img/cataloguewhite.png" style="width:90px; margin-left:757px; margin-bottom:10px; margin-top:-10px; cursor: pointer">
-          <img onclick="location.href='chat.php'"src="img/whtchat.png" style="width:80px; margin-left:40px; margin-bottom:17px; margin-top:-35px; cursor: pointer">
+          <img onclick="location.href='catalogues.php'"src="img/cataloguewhite.png" style="width:90px; margin-left:762px; margin-bottom:12px; margin-top:-10px; cursor: pointer">
+          <img onclick="location.href='chat.php'"src="img/whtchat.png" style="width:80px; margin-left:47px; margin-bottom:17px; margin-top:-35px; cursor: pointer">
         </tr>
       </table>
 
