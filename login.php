@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['sub'])) {
-  header("location:home.php") // yes logged in redirect to homepage
+  header("location:home.php"); // Yes logged in redirect to homepage
 }
 ?>
 <!DOCTYPE html>
@@ -10,6 +10,7 @@ if (isset($_SESSION['sub'])) {
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="script.js"></script>
 <style>
 body {
   font-family: Arial;
@@ -216,10 +217,10 @@ button[type=button]:hover{
 }
 </style>
 
-  <form class="modal-content animate" action="javascript:void(0)" method="post">
+  <form class="modal-content animate" action="javascript:void(0)" method="post" id="loginForm">
     <div class="imgcontainer">
       <span onclick="location.href='index.php'" class="close" title="Close Modal"></span>
-      <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png" alt="Avatar" class="avatar">
+      <img src="img/avatar.png" alt="Avatar" class="avatar">
     </div>
 
     <div class="container">
@@ -233,11 +234,12 @@ button[type=button]:hover{
       <label for="psw"><b></b></label>
       <input class="pass" id="pswd" type="password" placeholder="Password" name="psw">
 
-      <button type="submit" id="loginBtn" class="ltn" style="border-radius:10px; outline:none; font-family:inherit; color:white; font-size:17px" name="loginbutton"><b>Log In</b></button>
+      <button type="submit" id="loginBtn" class="ltn" style="border-radius:10px; outline:none; font-family:inherit; color:white; font-size:17px" name="loginbutton" onclick="checkLogin()"><b>Log In</b></button>
       <label>
         <small style="position:fixed; margin-top: 62px; font-size:20px; margin-left:-377px; color:red; visibility:hidden" id="loginError"></small>
         <small style="position:fixed; margin-top: 62px; font-size:20px; margin-left:-321px; color:red; visibility:hidden" id="emailError">Please enter your email.</small>
         <small style="position:fixed; margin-top: 62px; font-size:20px; margin-left:-337px; color:red; visibility:hidden" id="passError">Please enter your password.</small>
+        <small style="position:fixed; margin-top: 62px; font-size:20px; margin-left:-323px; color:red; display:none" id="checkLogin">Incorrect Email/Password</small>
     </div>
 
 <div class="container">
@@ -266,6 +268,7 @@ var emailYes = document.getElementById('emailYes');
 var emailNo = document.getElementById('emailNo');
 var passwordYes = document.getElementById('passwordYes');
 var passwordNo = document.getElementById('passwordNo');
+var loginCheck = document.getElementById('checkLogin');
 
 loginBtn.addEventListener("click", function(e) {
   e.preventDefault();
@@ -275,6 +278,7 @@ loginBtn.addEventListener("click", function(e) {
     loginError.innerText = "Please enter your email and password.";
     emailError.style.visibility = 'hidden';
     passError.style.visibility = 'hidden';
+    loginCheck.style.display = 'none';
     // icons
     emailNo.style.visibility = 'visible';
     passwordNo.style.visibility = 'visible';
@@ -288,6 +292,7 @@ loginBtn.addEventListener("click", function(e) {
     emailError.style.visibility = 'visible';
     passError.style.visibility = 'hidden';
     loginError.style.visibility = 'hidden';
+    loginCheck.style.display = 'none';
     // icons
     emailNo.style.visibility = 'visible';
     passwordYes.style.visibility = 'visible';
@@ -301,6 +306,7 @@ loginBtn.addEventListener("click", function(e) {
     loginError.style.visibility = 'hidden';
     emailError.style.visibility = 'hidden';
     passError.style.visibility = 'visible';
+    loginCheck.style.display = 'none';
     // icons
     passwordNo.style.visibility = 'visible';
     emailYes.style.visibility = 'visible';
@@ -314,6 +320,7 @@ loginBtn.addEventListener("click", function(e) {
     loginError.style.visibility = 'hidden';
     emailError.style.visibility = 'hidden';
     passError.style.visibility = 'hidden';
+    loginCheck.style.display = 'none';
     // icons
     emailYes.style.visibility = 'visible';
     passwordYes.style.visibility = 'visible';
@@ -322,6 +329,7 @@ loginBtn.addEventListener("click", function(e) {
     // borders
     loginEmail.style.border = '2px solid green';
     loginPassword.style.border = '2px solid green';
+    document.getElementById('loginForm').submit();
   }
 });
 
@@ -966,5 +974,4 @@ body {
   </body>
 </html>
 </body>
-<script src="script.js"></script>
 </html>
